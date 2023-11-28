@@ -1,0 +1,68 @@
+@model Proyecto.ViewModels.EmpleadosListVM
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form method="get" asp-action="Index" asp-controller="Empleados">
+    <div class="col-6 form-group mb-2">
+        <input class="form-control" asp-for="Filter">
+    </div> 
+    <button class="btn btn-primary" type="submit">Buscar</button>
+
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Empleados[0].Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Empleados[0].Apellido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Empleados[0].Edad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Empleados[0].Sueldo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Empleados[0].Ambiguedad)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Empleados) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Edad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sueldo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ambiguedad)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
