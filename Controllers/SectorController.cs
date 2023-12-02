@@ -7,36 +7,40 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Proyecto.Data;
 using Proyecto.Models;
+using Proyecto.Services;
+using Proyecto.ViewModels;
 
 namespace Proyecto.Controllers
 {
     public class SectorController : Controller
     {
-        private readonly EmpleadosPuestosContext _context;
+        private readonly ISectorService _sectorService;
 
-        public SectorController(EmpleadosPuestosContext context)
+        public SectorController(ISectorService sectorService)
         {
-            _context = context;
+           _sectorService=sectorService;
         }
 
         // GET: Sector
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string filter)
         {
-              return _context.Sector != null ? 
-                          View(await _context.Sector.ToListAsync()) :
-                          Problem("Entity set 'EmpleadosPuestosContext.Sector'  is null.");
+            var SectorListVM = new SectorListVM();
+            var sectorList = await _sectorService.GetAll(filter);
+            foreach (var item in sectorList)
+            {
+                SectorListVM.Sector.Add(new SectorVM{
+                    Id=item.Id,
+                    Name=item.Name,
+                    Description=item.Description
+                });
+            }
+            return View (SectorListVM);
         }
 
         // GET: Sector/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Sector == null)
-            {
-                return NotFound();
-            }
-
-            var sector = await _context.Sector
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var sector = await _sectorService.GetById(id);              
             if (sector == null)
             {
                 return NotFound();
@@ -46,22 +50,26 @@ namespace Proyecto.Controllers
         }
 
         // GET: Sector/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var sectorList= await _sectorService.GetAllEmpleados();
+            if (sectorList== null) sectorList=new List<Sector>();
+            ViewData["Sector"]=new SelectList(sectorList, "Id", "nombre");
             return View();
         }
 
         // POST: Sector/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description")] Sector sector)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description")] SectorVM sector)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(sector);
-                await _context.SaveChangesAsync();
+                var newSector= new Sector{
+                   Name=sector.Name,
+                   Description=sector.Description
+                };
+                await _sectorService.Create(newSector);
                 return RedirectToAction(nameof(Index));
             }
             return View(sector);
@@ -70,13 +78,9 @@ namespace Proyecto.Controllers
         // GET: Sector/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Sector == null)
-            {
-                return NotFound();
-            }
-
-            var sector = await _context.Sector.FindAsync(id);
-            if (sector == null)
+            
+            var sector = await _sectorService.GetById(id);
+            if (id == null || sector== null)
             {
                 return NotFound();
             }
@@ -84,8 +88,6 @@ namespace Proyecto.Controllers
         }
 
         // POST: Sector/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Sector sector)
@@ -99,12 +101,11 @@ namespace Proyecto.Controllers
             {
                 try
                 {
-                    _context.Update(sector);
-                    await _context.SaveChangesAsync();
+                    _sectorService.Update(sector);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SectorExists(sector.Id))
+                    if (_sectorService.GetById(id) == null)
                     {
                         return NotFound();
                     }
@@ -117,22 +118,15 @@ namespace Proyecto.Controllers
             }
             return View(sector);
         }
-
         // GET: Sector/Delete/5
+
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Sector == null)
-            {
-                return NotFound();
-            }
-
-            var sector = await _context.Sector
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (sector == null)
-            {
-                return NotFound();
-            }
-
+          var sector=await _sectorService.GetById(id);
+           if(sector==null)
+           {
+            return NotFound();
+           }
             return View(sector);
         }
 
@@ -141,23 +135,11 @@ namespace Proyecto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Sector == null)
-            {
-                return Problem("Entity set 'EmpleadosPuestosContext.Sector'  is null.");
-            }
-            var sector = await _context.Sector.FindAsync(id);
-            if (sector != null)
-            {
-                _context.Sector.Remove(sector);
-            }
-            
-            await _context.SaveChangesAsync();
+         
+            await _sectorService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SectorExists(int id)
-        {
-          return (_context.Sector?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
+    
     }
 }

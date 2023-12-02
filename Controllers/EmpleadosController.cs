@@ -26,7 +26,7 @@ namespace Proyecto.Controllers
         // GET: Empleados
         public async Task<IActionResult> Index(string filter)
         {
-            var EmpleadosListVM = new EmpleadosListVM();
+            var EmpleadosListVM = new EmpleadoListVM();
             var empleadoList = await _empleadoService.GetAll(filter);
             foreach (var item in empleadoList)
             {

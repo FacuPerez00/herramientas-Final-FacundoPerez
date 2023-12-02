@@ -28,16 +28,8 @@ namespace Proyecto.Data
                    .HasOne(e => e.Sector)
                    .WithMany(e => e.Puestos)
                    .IsRequired(false);
-                
-    
-          
-    
+            
                base.OnModelCreating(modelBuilder);
-    
         }
-
-        
-        
-
     }
 }
