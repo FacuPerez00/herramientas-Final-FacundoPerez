@@ -13,6 +13,7 @@ builder.Services.AddDbContext<EmpleadosPuestosContext>(options =>
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<EmpleadosPuestosContext>();
 
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IEmpleadoService, EmpleadoService>();

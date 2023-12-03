@@ -2,6 +2,7 @@ using Proyecto.Data;
 using Proyecto.Models;
 using Microsoft.EntityFrameworkCore;
 using Proyecto.ViewModels;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Proyecto.Services;
 
@@ -15,6 +16,7 @@ public class EmpleadoService : IEmpleadoService
         }
     public async Task Create(Empleado empleado)
     {
+        //empleado.fechaAlta=DateTime.Now();
         _context.Add(empleado);
         await _context.SaveChangesAsync();
     }
@@ -70,6 +72,11 @@ public class EmpleadoService : IEmpleadoService
     {
         _context.Update(empleado);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task Edit()
+    {
+      
     }
 
 
