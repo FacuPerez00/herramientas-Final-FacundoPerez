@@ -1,8 +1,9 @@
 using Proyecto.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Proyecto.Data;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 
 
@@ -11,14 +12,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<EmpleadosPuestosContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("EmpleadosPuestosContext") ?? throw new InvalidOperationException("Connection string 'EmpleadosPuestosContext' not found.")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<EmpleadosPuestosContext>();
-
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+.AddEntityFrameworkStores<EmpleadosPuestosContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IEmpleadoService, EmpleadoService>();
 builder.Services.AddScoped<ISectorService, SectorService>();
-
 
 var app = builder.Build();
 

@@ -4,7 +4,13 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+     <UserSecretsId>aspnet-herramientas-parcial2-FacundoPerez-09be9db5-94f5-44b6-96c9-d62b3e9241ec</UserSecretsId>
   </PropertyGroup>
+  
+  
+  <ItemGroup>
+    <None Update="EmpleadosPuestosDB.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.11" />

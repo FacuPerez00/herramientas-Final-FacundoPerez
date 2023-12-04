@@ -4,17 +4,20 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Listado de Empleados</h1>
+<style>img{width:250px; height:150px ;}</style>
+<img src="~/img/Empleados FP.png" align="right" />
+
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" button class="btn btn-succes">Create New</a>
 </p>
 
 <form method="get" asp-action="Index" asp-controller="Empleados">
     <div class="col-6 form-group mb-2">
         <input class="form-control" asp-for="Filter">
     </div> 
-    <button class="btn btn-primary" type="submit">Buscar</button>
+    <button class="btn btn-sm btn-dark" type="submit">Buscar</button>
 
 </form>
 
@@ -58,11 +61,12 @@
                 @Html.DisplayFor(modelItem => item.Ambiguedad)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id" button class="btn btn-primary" >Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id" button class= "btn btn-warning" >Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id"  button class="btn btn-danger" >Delete</a>
             </td>
         </tr>
 }
     </tbody>
+    <a href="http://localhost:5078">Volver al inicio</a><br>
 </table>

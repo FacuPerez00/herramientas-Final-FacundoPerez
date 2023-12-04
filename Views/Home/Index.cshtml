@@ -2,9 +2,14 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+  <div class="text-center">
+  <h1 class="display-4">FP Ingenieria</h1> <br>
+  </div>
+   <style> body{background-color:rgb(90, 230, 90)} img{width:250px;height:150px}</style>
+   <center><img src="~/img/LOGO FP.png"></center> <br> 
+   
+   @if(User.Identity !=null)
+   {
+     <partial name="_Banner" />
+   }
 
-    <h1 class="display-4">FP Ingenieria</h1> <br>
-    <style> body{background-color:rgb(14, 84, 14)} img{width:250px;height:150px}</style>
-   <partial name="_Banner" />
-</div>

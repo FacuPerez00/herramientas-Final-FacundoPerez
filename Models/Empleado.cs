@@ -9,8 +9,7 @@ public class Empleado{
     public int Edad {get; set;}
     public int Sueldo{get; set;}
     public int Ambiguedad {get;set;}
-   
-    //public DateTime Now {get;}
+    public static DateTime date {get;set;} 
     //public int fechaBaja {get;set;}
     //public int fechaAlta {get;set;}
     //public bool Activo {get;set;}

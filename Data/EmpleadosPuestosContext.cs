@@ -11,8 +11,6 @@ namespace Proyecto.Data
 {
     public class EmpleadosPuestosContext : IdentityDbContext
     {
-       
-        
         public EmpleadosPuestosContext (DbContextOptions<EmpleadosPuestosContext> options)
             : base(options)
         {

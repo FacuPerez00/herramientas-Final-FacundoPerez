@@ -16,7 +16,7 @@ public class EmpleadoService : IEmpleadoService
         }
     public async Task Create(Empleado empleado)
     {
-        //empleado.fechaAlta=DateTime.Now();
+        DateTime fechaAlta=DateTime.Now;
         _context.Add(empleado);
         await _context.SaveChangesAsync();
     }
