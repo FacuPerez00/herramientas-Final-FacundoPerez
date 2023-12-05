@@ -13,6 +13,7 @@ builder.Services.AddDbContext<EmpleadosPuestosContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("EmpleadosPuestosContext") ?? throw new InvalidOperationException("Connection string 'EmpleadosPuestosContext' not found.")));
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+.AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<EmpleadosPuestosContext>();
 
 // Add services to the container.
