@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Proyecto.ViewModels;
 
 public class SectorListVM

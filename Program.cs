@@ -20,6 +20,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IEmpleadoService, EmpleadoService>();
 builder.Services.AddScoped<ISectorService, SectorService>();
+builder.Services.AddScoped<IPuestoService, PuestoService>();
 
 var app = builder.Build();
 

@@ -22,7 +22,6 @@ namespace Proyecto.Controllers
            _sectorService=sectorService;
         }
         
-       [Authorize(Roles = "Administrador")]
         // GET: Sector
         public async Task<IActionResult> Index(string filter)
         {
@@ -32,8 +31,8 @@ namespace Proyecto.Controllers
             {
                 SectorListVM.Sector.Add(new SectorVM{
                     Id=item.Id,
-                    Name=item.Name,
-                    Description=item.Description
+                    Nombre=item.Nombre,
+                    Descripcion=item.Descripcion,
                 });
             }
             return View (SectorListVM);
@@ -56,20 +55,20 @@ namespace Proyecto.Controllers
         {
             var sectorList= await _sectorService.GetAllEmpleados();
             if (sectorList== null) sectorList=new List<Sector>();
-            ViewData["Sector"]=new SelectList(sectorList, "Id", "nombre");
+            ViewData["Sector"]=new SelectList(sectorList, "Id", "Nombre");
             return View();
         }
 
         // POST: Sector/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description")] SectorVM sector)
+        public async Task<IActionResult> Create([Bind("Id,Nombre, Descripcion")] SectorVM sector)
         {
             if (ModelState.IsValid)
             {
                 var newSector= new Sector{
-                   Name=sector.Name,
-                   Description=sector.Description
+                   Nombre=sector.Nombre,
+                   Descripcion=sector.Descripcion,
                 };
                 await _sectorService.Create(newSector);
                 return RedirectToAction(nameof(Index));
@@ -92,7 +91,7 @@ namespace Proyecto.Controllers
         // POST: Sector/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Sector sector)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Descripcion")] Sector sector)
         {
             if (id != sector.Id)
             {

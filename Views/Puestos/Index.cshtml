@@ -1,4 +1,4 @@
-@model IEnumerable<Proyecto.Models.Puesto>
+@model Proyecto.ViewModels.PuestosListVM
 
 @{
     ViewData["Title"] = "Index";
@@ -8,28 +8,35 @@
 <img src="~/img/puestos fp.jpg"  align="right">
 
 <p>
-    <a asp-action="Create" button class="btn btn-succes" >Create New</a>
+    <a asp-action="Create" button class="btn btn-dark" >Generar Puesto</a>
 </p>
+<form method="get" asp-action="Index" asp-controller="Puesto">
+    <div class="col-6 form-group mb-2">
+        <input class="form-control" asp-for="Filter">
+    </div> 
+    <button class="btn btn-sm btn-dark" type="submit">Buscar</button>
+
+</form>
 <table class="table">
     <thead>
         <tr>
      
             
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.Puestos[0].Nombre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SectorId)
+                @Html.DisplayNameFor(model => model.Puestos[0].SectorId)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Puestos) {
         <tr>
             
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.Nombre)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SectorId)

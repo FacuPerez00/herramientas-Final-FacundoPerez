@@ -43,8 +43,8 @@ public class SectorService : ISectorService
             if (!String.IsNullOrEmpty(filter))
             {
                query = query
-               .Where(x=> x.Name.ToLower().Contains(filter.ToLower()) || 
-               x.Description.ToLower().Contains(filter.ToLower()));
+               .Where(x=> x.Nombre.ToLower().Contains(filter.ToLower()) || 
+               x.Descripcion.ToLower().Contains(filter.ToLower()));
             }
             return await query.ToListAsync();
         

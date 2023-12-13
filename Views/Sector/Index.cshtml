@@ -4,19 +4,29 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+
+<h1>Sectores</h1>
+<style>img{width:250px; height:150px ;}</style>
+<img src="~/img/SECTOR FP.png" align="right" />
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" button class="btn btn-dark"> Crear Sector</a>
 </p>
+<form method="get" asp-action="Index" asp-controller="Sector">
+    <div class="col-6 form-group mb-2">
+        <input class="form-control" asp-for="Filter">
+    </div> 
+    <button class="btn btn-sm btn-dark" type="submit">Buscar</button>
+
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Sector[0].Name)
+                @Html.DisplayNameFor(model => model.Sector[0].Nombre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sector[0].Description)
+                @Html.DisplayNameFor(model => model.Sector[0].Descripcion)
             </th>
             <th></th>
         </tr>
@@ -25,15 +35,15 @@
 @foreach (var item in Model.Sector) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @Html.DisplayFor(modelItem => item.Descripcion)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id" button class="btn btn-primary" >Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id" button class= "btn btn-warning" >Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id"  button class="btn btn-danger" >Delete</a>
             </td>
         </tr>
 }

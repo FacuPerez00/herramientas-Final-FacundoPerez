@@ -84,10 +84,11 @@ namespace Proyecto.Controllers
                 Sueldo=empleado.Sueldo,
                 Ambiguedad=empleado.Ambiguedad
                };
-              await _empleadoService.Create(newEmpleado);
-              return RedirectToAction(nameof(Index));
+                 
+                await _empleadoService.Create(newEmpleado);
+                return RedirectToAction(nameof(Index));
             }
-             return View(empleado);
+                return View(empleado);
         }
 
         // GET: Empleados/Edit/5

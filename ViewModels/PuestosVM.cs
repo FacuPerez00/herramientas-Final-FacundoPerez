@@ -1,8 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Proyecto.ViewModels;
 
 public class PuestosVM{
 
-    
-    public string Name {get;set;}
-    public string SectorId {get;set;}
+    public int Id {get; set;}
+    public string Nombre {get;set;}
+    public int SectorId {get;set;}
 }

@@ -8,52 +8,54 @@ using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.EntityFrameworkCore;
 using Proyecto.Data;
 using Proyecto.Models;
+using Proyecto.Services;
 using Proyecto.ViewModels;
 
 namespace Proyecto.Controllers
 {
     public class PuestosController : Controller
     {
-        private readonly EmpleadosPuestosContext _context;
+        private readonly IPuestoService _puestoService;
 
-        public PuestosController(EmpleadosPuestosContext context)
+        public PuestosController(IPuestoService puestoService)
         {
-            _context = context;
+            _puestoService = puestoService;
         }
 
         // GET: Puestos
         public async Task<IActionResult> Index(string filter)
         {
-              var query =from puestos in _context.Puestos select puestos; 
-            if (!String.IsNullOrEmpty(filter))
+            var puestoListVM = new PuestosListVM();
+            var puestoList = await _puestoService.GetAll(filter);
+            // Mapeamos la entidad con el view model para enviar a la vista
+            foreach (var item in puestoList)
             {
-               query = query
-               .Where(x=> x.Name.ToLower().Contains(filter.ToLower())); 
+                puestoListVM.Puestos.Add(new PuestosVM {
+                    Id = item.Id,
+                    Nombre= item. Nombre,
+                });
             }
-              return View(await query.ToListAsync());
+
+            return View (puestoListVM);
         }
 
         // GET: Puestos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Puestos == null)
+            var puesto = await _puestoService.GetById(id);
+            if (puesto == null)
             {
                 return NotFound();
             }
-
-            var puestos = await _context.Puestos
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (puestos == null)
-            {
-                return NotFound();
-            }
-
-            return View(puestos);
+            return View(puesto);
         }
 
         // GET: Puestos/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+           var puestoList= await _puestoService.GetAllPuestos();
+            if (puestoList== null) puestoList=new List<Puesto>();
+            ViewData["Puesto"]=new SelectList(puestoList, "Nombre", "SectorId");
             return View();
         }
 
@@ -62,17 +64,17 @@ namespace Proyecto.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Sector")] PuestosVM newPuesto)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,SectorId")] PuestosVM newPuesto)
         {
           
             if (ModelState.IsValid)
             {
+                var puestoList = await _puestoService.GetAllPuestos();
                 var puesto= new Puesto{
-                    Name = newPuesto.Name,
-                    
+                    Nombre= newPuesto.Nombre,
+                    SectorId=newPuesto.SectorId,
                 };
-                _context.Add(puesto);
-                await _context.SaveChangesAsync();
+                await _puestoService.Create(puesto);
                 return RedirectToAction(nameof(Index));
             }
             return View(newPuesto);
@@ -81,17 +83,12 @@ namespace Proyecto.Controllers
         // GET: Puestos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Puestos == null)
+            var puesto = await _puestoService.GetById(id);
+            if (puesto == null)
             {
                 return NotFound();
             }
-
-            var puestos = await _context.Puestos.FindAsync(id);
-            if (puestos == null)
-            {
-                return NotFound();
-            }
-            return View(puestos);
+            return View(puesto);
         }
 
         // POST: Puestos/Edit/5
@@ -99,9 +96,9 @@ namespace Proyecto.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Sector")] Puesto puestos)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,SectorId")] Puesto puesto)
         {
-            if (id != puestos.Id)
+            if (id != puesto.Id)
             {
                 return NotFound();
             }
@@ -110,12 +107,12 @@ namespace Proyecto.Controllers
             {
                 try
                 {
-                    _context.Update(puestos);
-                    await _context.SaveChangesAsync();
+                    await _puestoService.Update(puesto);
+                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PuestosExists(puestos.Id))
+                    if (_puestoService.GetById(id) == null)
                     {
                         return NotFound();
                     }
@@ -126,25 +123,19 @@ namespace Proyecto.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(puestos);
+            return View(puesto);
         }
 
         // GET: Puestos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Puestos == null)
+            var puesto = await _puestoService.GetById(id);
+            if (puesto == null)
             {
                 return NotFound();
             }
 
-            var puestos = await _context.Puestos
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (puestos == null)
-            {
-                return NotFound();
-            }
-
-            return View(puestos);
+            return View(puesto);
         }
 
         // POST: Puestos/Delete/5
@@ -152,25 +143,12 @@ namespace Proyecto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Puestos == null)
-            {
-                return Problem("Entity set 'EmpleadosPuestosContext.Puestos'  is null.");
-            }
-            var puestos = await _context.Puestos.FindAsync(id);
-            if (puestos != null)
-            {
-                _context.Puestos.Remove(puestos);
-            }
-            
-            await _context.SaveChangesAsync();
+            await _puestoService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
+        
 
-        private bool PuestosExists(int id)
-        {
-          return (_context.Puestos?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
-       
+        
 
     }
 }
