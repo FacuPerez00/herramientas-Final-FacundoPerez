@@ -32,7 +32,7 @@ namespace Proyecto.Controllers
             {
                 puestoListVM.Puestos.Add(new PuestosVM {
                     Id = item.Id,
-                    Nombre= item. Nombre,
+                    Nombre= item.Nombre,
                 });
             }
 
@@ -47,7 +47,11 @@ namespace Proyecto.Controllers
             {
                 return NotFound();
             }
-            return View(puesto);
+            var puestoVM= new PuestosVM{
+                Id = puesto.Id,
+                Nombre= puesto. Nombre,
+            };
+            return View(puestoVM);
         }
 
         // GET: Puestos/Create
@@ -88,7 +92,12 @@ namespace Proyecto.Controllers
             {
                 return NotFound();
             }
-            return View(puesto);
+
+            var puestoVM= new PuestosVM{
+                Id = puesto.Id,
+                Nombre= puesto. Nombre,
+            };
+            return View(puestoVM);
         }
 
         // POST: Puestos/Edit/5
@@ -96,30 +105,23 @@ namespace Proyecto.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,SectorId")] Puesto puesto)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,SectorId")] PuestosVM puesto)
         {
-            if (id != puesto.Id)
-            {
-                return NotFound();
-            }
-
+         
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await _puestoService.Update(puesto);
+                    var puestoVM= new Puesto{
+                     Id = puesto.Id,
+                     Nombre= puesto. Nombre,
+                    };
+                    await _puestoService.Update(puestoVM);
                     
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (_puestoService.GetById(id) == null)
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                   throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -134,8 +136,12 @@ namespace Proyecto.Controllers
             {
                 return NotFound();
             }
+            var puestoVM= new PuestosVM{
+                Id = puesto.Id,
+                Nombre= puesto. Nombre,
+            };
 
-            return View(puesto);
+            return View(puestoVM);
         }
 
         // POST: Puestos/Delete/5
@@ -143,7 +149,10 @@ namespace Proyecto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _puestoService.Delete(id);
+            if(id !=0)
+            {
+                 await _puestoService.Delete(id);
+            }
             return RedirectToAction(nameof(Index));
         }
         

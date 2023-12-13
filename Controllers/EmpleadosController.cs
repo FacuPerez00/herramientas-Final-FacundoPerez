@@ -51,10 +51,17 @@ namespace Proyecto.Controllers
             {
                 return NotFound();
             }
-
+            var empleadoVM = new EmpleadosVM {
+                    Id=empleado.Id,
+                    Nombre=empleado.Nombre,
+                    Apellido=empleado.Apellido,
+                    Edad=empleado.Edad,
+                    Sueldo=empleado.Sueldo,
+                    Ambiguedad=empleado.Ambiguedad
+            };
           
 
-            return View(empleado);
+            return View(empleadoVM);
         }
 
         // GET: Empleados/Create
@@ -100,7 +107,15 @@ namespace Proyecto.Controllers
                 return NotFound();
             }
 
-            return View(empleados);
+            var empleadoVM= new EmpleadosVM{
+                Nombre=empleados.Nombre,
+                Apellido=empleados.Apellido,
+                Edad=empleados.Edad,
+                Sueldo=empleados.Sueldo,
+                Ambiguedad=empleados.Ambiguedad
+            };
+
+            return View(empleadoVM);
         }
 
         // POST: Empleados/Edit/5
@@ -108,31 +123,27 @@ namespace Proyecto.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,Edad,Sueldo,Ambiguedad")] Empleado  empleado)
-        
-             
+        public async Task<IActionResult> Edit(int id, [Bind("Id, Nombre,Apellido,Edad,Sueldo,Ambiguedad")] EmpleadosVM  empleado)
         {
-            if (id != empleado.Id)
-            {
-                return NotFound();
-            }
+           
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await _empleadoService.Update(empleado);
+                    var updateEmpleado = new Empleado {
+                    Id=empleado.Id,
+                    Nombre=empleado.Nombre,
+                    Apellido=empleado.Apellido,
+                    Edad=empleado.Edad,
+                    Sueldo=empleado.Sueldo,
+                    Ambiguedad=empleado.Ambiguedad
+                    };
+                    await _empleadoService.Update(updateEmpleado);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (_empleadoService.GetById(id) == null)
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -146,11 +157,18 @@ namespace Proyecto.Controllers
            var empleado=await _empleadoService.GetById(id);
            if(empleado==null)
            {
-            return NotFound();
+             return NotFound();
            }
-             
+            var empleadoVM = new EmpleadosVM {
+             Id=empleado.Id,
+             Nombre=empleado.Nombre,
+             Apellido=empleado.Apellido,
+             Edad=empleado.Edad,
+             Sueldo=empleado.Sueldo,
+             Ambiguedad=empleado.Ambiguedad
+             };
 
-            return View(empleado);
+            return View(empleadoVM);
         }
 
         // POST: Empleados/Delete/5
@@ -158,12 +176,11 @@ namespace Proyecto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            
-            await _empleadoService.Delete(id);
+            if (id !=0)
+            {
+              await _empleadoService.Delete(id);
+            }
             return RedirectToAction(nameof(Index));
         }
-
-       
-
     }
 }

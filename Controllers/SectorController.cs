@@ -46,8 +46,13 @@ namespace Proyecto.Controllers
             {
                 return NotFound();
             }
+            var sectorVM= new SectorVM{
+                 Id=sector.Id,
+                 Nombre=sector.Nombre,
+                 Descripcion=sector.Descripcion,
+            };
 
-            return View(sector);
+            return View(sectorVM);
         }
 
         // GET: Sector/Create
@@ -85,50 +90,55 @@ namespace Proyecto.Controllers
             {
                 return NotFound();
             }
-            return View(sector);
+             var sectorVM= new SectorVM{
+                 Id=sector.Id,
+                 Nombre=sector.Nombre,
+                 Descripcion=sector.Descripcion,
+            };
+            return View(sectorVM);
         }
 
         // POST: Sector/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Descripcion")] Sector sector)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Descripcion")] SectorVM sector)
         {
-            if (id != sector.Id)
-            {
-                return NotFound();
-            }
+          
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _sectorService.Update(sector);
+                     var updateSector= new Sector{
+                     Id=sector.Id,
+                     Nombre=sector.Nombre,
+                     Descripcion=sector.Descripcion,
+                    };
+
+                    _sectorService.Update(updateSector);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (_sectorService.GetById(id) == null)
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
             return View(sector);
         }
         // GET: Sector/Delete/5
-
         public async Task<IActionResult> Delete(int? id)
         {
-          var sector=await _sectorService.GetById(id);
-           if(sector==null)
-           {
-            return NotFound();
-           }
-            return View(sector);
+               var sector= await _sectorService.GetById(id);
+                if(sector==null)
+                {
+                 return NotFound();
+                }
+                 var sectorVM= new SectorVM{
+                 Id=sector.Id,
+                 Nombre=sector.Nombre,
+                 Descripcion=sector.Descripcion,
+                };
+            return View(sectorVM);
         }
 
         // POST: Sector/Delete/5
@@ -136,11 +146,11 @@ namespace Proyecto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-         
+            if(id != 0)
+            {
             await _sectorService.Delete(id);
+            }
             return RedirectToAction(nameof(Index));
         }
-
-    
     }
 }

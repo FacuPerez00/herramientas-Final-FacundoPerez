@@ -10,9 +10,7 @@ public class Empleado{
     public int Sueldo{get; set;}
     public int Ambiguedad {get;set;}
     public static DateTime date {get;set;} 
-    //public int fechaBaja {get;set;}
-    //public int fechaAlta {get;set;}
-    //public bool Activo {get;set;}
+    
     public virtual ICollection<Puesto> Puestos {get;set;}
     
 }

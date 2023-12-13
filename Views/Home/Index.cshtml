@@ -1,15 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-}
-
-  <div class="text-center">
-  <h1 class="display-4">FP Ingenieria</h1> <br>
-  </div>
+}  
    <style> body{background-color:rgb(90, 230, 90)} img{width:250px;height:150px}</style>
    <center><img src="~/img/LOGO FP.png"></center> <br> 
-   
+   <div class= "text-center">
    @if(User.Identity !=null)
    {
      <partial name="_Banner" />
    }
+   </div>
 
