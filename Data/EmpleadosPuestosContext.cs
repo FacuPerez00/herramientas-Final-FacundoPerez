@@ -29,5 +29,6 @@ namespace Proyecto.Data
             
                base.OnModelCreating(modelBuilder);
         }
+        
     }
 }

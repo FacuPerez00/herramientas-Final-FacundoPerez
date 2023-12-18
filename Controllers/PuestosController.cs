@@ -33,6 +33,7 @@ namespace Proyecto.Controllers
                 puestoListVM.Puestos.Add(new PuestosVM {
                     Id = item.Id,
                     Nombre= item.Nombre,
+                    SectorId=item.SectorId
                 });
             }
 

@@ -10,9 +10,5 @@ public interface IPuestoService{
     Task Create (Puesto puesto);
     Task<Puesto> GetById(int? id);
     Task<List<Puesto>> GetAllPuestos();
-   
- 
-    
-
 }
 

@@ -234,6 +234,9 @@ namespace Proyecto.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("Activo")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Ambiguedad")
                         .HasColumnType("INTEGER");
 
@@ -242,6 +245,12 @@ namespace Proyecto.Migrations
 
                     b.Property<int>("Edad")
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("FechaAlta")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("FechaBaja")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Nombre")
                         .HasColumnType("TEXT");

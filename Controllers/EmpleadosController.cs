@@ -36,8 +36,10 @@ namespace Proyecto.Controllers
                     Apellido=item.Apellido,
                     Edad=item.Edad,
                     Sueldo=item.Sueldo,
-                    Ambiguedad=item.Ambiguedad
-                  
+                    Ambiguedad=item.Ambiguedad,
+                    FechaAlta=item.FechaAlta,
+                    FechaBaja=item.FechaBaja,
+                    Activo=item.Activo
                 });
             }
             return View (EmpleadosListVM);
@@ -57,7 +59,10 @@ namespace Proyecto.Controllers
                     Apellido=empleado.Apellido,
                     Edad=empleado.Edad,
                     Sueldo=empleado.Sueldo,
-                    Ambiguedad=empleado.Ambiguedad
+                    Ambiguedad=empleado.Ambiguedad,
+                    FechaAlta=empleado.FechaAlta,
+                    FechaBaja=empleado.FechaBaja,
+                    Activo=empleado.Activo
             };
           
 
@@ -112,7 +117,7 @@ namespace Proyecto.Controllers
                 Apellido=empleados.Apellido,
                 Edad=empleados.Edad,
                 Sueldo=empleados.Sueldo,
-                Ambiguedad=empleados.Ambiguedad
+                Ambiguedad=empleados.Ambiguedad,
             };
 
             return View(empleadoVM);
@@ -137,7 +142,10 @@ namespace Proyecto.Controllers
                     Apellido=empleado.Apellido,
                     Edad=empleado.Edad,
                     Sueldo=empleado.Sueldo,
-                    Ambiguedad=empleado.Ambiguedad
+                    Ambiguedad=empleado.Ambiguedad,
+                    FechaAlta=empleado.FechaAlta,
+                    FechaBaja=empleado.FechaBaja,
+                    Activo=empleado.Activo
                     };
                     await _empleadoService.Update(updateEmpleado);
                 }
@@ -152,7 +160,7 @@ namespace Proyecto.Controllers
         }
 
         // GET: Empleados/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Unsubscribe(int? id)
         {
            var empleado=await _empleadoService.GetById(id);
            if(empleado==null)
@@ -165,14 +173,49 @@ namespace Proyecto.Controllers
              Apellido=empleado.Apellido,
              Edad=empleado.Edad,
              Sueldo=empleado.Sueldo,
-             Ambiguedad=empleado.Ambiguedad
+             Ambiguedad=empleado.Ambiguedad,
+             FechaAlta=empleado.FechaAlta,
+             FechaBaja=empleado.FechaBaja,
+             Activo=empleado.Activo
+             };
+
+            return View(empleadoVM);
+        }
+           public async Task<IActionResult> Delete(int? id)
+        {
+           var empleado=await _empleadoService.GetById(id);
+           if(empleado==null)
+           {
+             return NotFound();
+           }
+            var empleadoVM = new EmpleadosVM {
+             Id=empleado.Id,
+             Nombre=empleado.Nombre,
+             Apellido=empleado.Apellido,
+             Edad=empleado.Edad,
+             Sueldo=empleado.Sueldo,
+             Ambiguedad=empleado.Ambiguedad,
+             FechaAlta=empleado.FechaAlta,
+             FechaBaja=empleado.FechaBaja,
+             Activo=empleado.Activo
              };
 
             return View(empleadoVM);
         }
 
+
         // POST: Empleados/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("Unsubscribe")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UnsubscribeConfirmed(int id)
+        {
+            if (id !=0)
+            {
+              await _empleadoService.Unsubscribe(id);
+            }
+            return RedirectToAction(nameof(Index));
+        }
+         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

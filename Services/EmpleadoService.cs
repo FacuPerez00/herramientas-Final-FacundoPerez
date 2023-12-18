@@ -17,7 +17,8 @@ public class EmpleadoService : IEmpleadoService
         
     public async Task Create(Empleado empleado)
     {
-        DateTime fechaAlta=DateTime.Now;
+        empleado.FechaAlta=DateTime.Now;
+        empleado.Activo=true;
         _context.Add(empleado);
         await _context.SaveChangesAsync();
     }
@@ -25,9 +26,24 @@ public class EmpleadoService : IEmpleadoService
     
 
 
-    public async Task Delete(int Id)
+    public async Task Unsubscribe(int Id)
     {
        var empleado= await _context.Empleados.FindAsync(Id);
+
+       if(empleado !=null)
+       {
+           //_context.Empleados.Remove(empleado);
+           empleado.FechaBaja=DateTime.Now;
+           empleado.Activo=false;
+            _context.Update(empleado);
+       }
+
+       await _context.SaveChangesAsync();
+    }
+     public async Task Delete(int Id)
+    {
+       var empleado= await _context.Empleados.FindAsync(Id);
+
        if(empleado !=null)
        {
            _context.Empleados.Remove(empleado);

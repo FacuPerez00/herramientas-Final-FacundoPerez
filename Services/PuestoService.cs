@@ -16,7 +16,6 @@ public class PuestoService : IPuestoService
         }
     public async Task Create(Puesto puesto)
     {
-        DateTime fechaAlta=DateTime.Now;
         _context.Add(puesto);
         await _context.SaveChangesAsync();
     }
@@ -72,13 +71,5 @@ public class PuestoService : IPuestoService
         _context.Update(puesto);
         await _context.SaveChangesAsync();
     }
-
-    public async Task Edit()
-    {
-      
-    }
-
-
-    
 }
 
