@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Identity;
 using Proyecto.Views.Roles.ViewModels;
 using Proyecto.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Proyecto.Controllers;
-
-
+ [Authorize]
 public class RolesController : Controller
 {
+   
     private readonly ILogger<HomeController> _logger;
     private readonly RoleManager<IdentityRole> _roleManager;
 

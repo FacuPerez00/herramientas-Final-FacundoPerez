@@ -2,8 +2,9 @@
     ViewData["Title"] = "FP Ingenieria";
 }  
  <div class= "text-center">
-   <style> body{background-color:rgb(90, 230, 90)} img{width:250px;height:150px}</style>
-   <center><img src="~/img/LOGO FP.png"></center> <br> 
+  <img src="~/img/LOGO FP.png"><style>img{width:250px;height:150px} </style>
+   <style> body{background-color:rgb(90, 230, 90)} </style>
+   <center></center> <br> 
     @if(User.Identity.IsAuthenticated)
    {
      <partial name="_Banner" />

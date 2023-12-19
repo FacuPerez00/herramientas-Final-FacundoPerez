@@ -6,7 +6,7 @@ using Proyecto.Models;
 using Microsoft.AspNetCore.Authorization;
 namespace Proyecto.Controllers;
 
-
+[Authorize]
 public class UsersController : Controller
 {
     private readonly ILogger<HomeController> _logger;

@@ -35,7 +35,7 @@ namespace Proyecto.Controllers
                 puestoListVM.Puestos.Add(new PuestosVM {
                     Id = item.Id,
                     Nombre= item.Nombre,
-                    SectorId=item.SectorId
+                    SectorId= item.SectorId
                 });
             }
 
@@ -118,6 +118,7 @@ namespace Proyecto.Controllers
                     var puestoVM= new Puesto{
                      Id = puesto.Id,
                      Nombre= puesto. Nombre,
+                     SectorId=puesto.SectorId
                     };
                     await _puestoService.Update(puestoVM);
                     
@@ -142,6 +143,7 @@ namespace Proyecto.Controllers
             var puestoVM= new PuestosVM{
                 Id = puesto.Id,
                 Nombre= puesto. Nombre,
+                SectorId= puesto. SectorId
             };
 
             return View(puestoVM);

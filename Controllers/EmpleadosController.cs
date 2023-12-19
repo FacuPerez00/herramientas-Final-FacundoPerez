@@ -10,9 +10,11 @@ using Proyecto.Models;
 using Proyecto.ViewModels;
 using Proyecto.Services;
 using SQLitePCL;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Proyecto.Controllers
 {
+    [Authorize]
     public class EmpleadosController : Controller
     {
         private readonly IEmpleadoService _empleadoService;
