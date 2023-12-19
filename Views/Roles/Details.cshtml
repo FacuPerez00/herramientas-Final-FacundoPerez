@@ -1,0 +1,27 @@
+@using Microsoft.AspNetCore.Identity;
+@using Proyecto.Views.Roles.ViewModels;
+@model RoleCreateViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Detalles</h1>
+
+<div>
+    <h4>Roles</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RoleName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RoleName)
+        </dd>
+       
+</div>
+<div>
+    <a asp-action="Eliminar" asp-route-id="@Model">Eliminar</a> |
+    <a asp-action="Edit" asp-route-id="@Model">Editar</a> |
+    <a asp-action="Index">Volver a la lista</a>
+</div>

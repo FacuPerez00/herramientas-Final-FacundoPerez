@@ -13,6 +13,7 @@ using Proyecto.ViewModels;
 
 namespace Proyecto.Controllers
 {
+    [Authorize (Roles = "Administrador")]
     public class SectorController : Controller
     {
         private readonly ISectorService _sectorService;
@@ -22,6 +23,7 @@ namespace Proyecto.Controllers
            _sectorService=sectorService;
         }
         
+        //[Authorize(Roles = "Administrador")]
         // GET: Sector
         public async Task<IActionResult> Index(string filter)
         {

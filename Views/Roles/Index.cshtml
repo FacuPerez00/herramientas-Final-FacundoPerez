@@ -1,0 +1,23 @@
+@using Microsoft.AspNetCore.Identity
+@model List<IdentityRole>
+
+
+<h3>Roles</h3>
+    
+<style>img{width:250px; height:150px ;}</style>
+<img src="~/img/Roles.png" align="right" />
+<p>
+    <a asp-action="Create" button class="btn btn-dark">Registrar Roles</a>
+</p>
+
+<table class="table">
+    <ul>
+    @foreach (var item in Model)
+    {
+     <li>@item.Name</li>
+    } 
+   
+</tbody>
+    <a href="http://localhost:5078">Volver al inicio</a><br>
+</table>
+

@@ -16,12 +16,13 @@ namespace Proyecto.Data
         {
         }
 
-        public DbSet<Proyecto.Models.Empleado> Empleados { get; set; } = default!;
-        public DbSet<Proyecto.Models.Puesto> Puestos { get; set; } = default!;
-        public DbSet<Proyecto.Models.Sector> Sector { get; set; } = default!;
+        public DbSet<Models.Empleado> Empleados { get; set; } = default!;
+        public DbSet<Models.Puesto> Puestos { get; set; } = default!;
+        public DbSet<Models.Sector> Sector { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //Segunda relacion (custom) un Sector con muchos puestos
                modelBuilder.Entity<Puesto>()
                    .HasOne(e => e.Sector)
                    .WithMany(e => e.Puestos)
@@ -29,6 +30,5 @@ namespace Proyecto.Data
             
                base.OnModelCreating(modelBuilder);
         }
-        
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.Language;
@@ -13,6 +14,7 @@ using Proyecto.ViewModels;
 
 namespace Proyecto.Controllers
 {
+    [Authorize(Roles="Administrador, Encargado")]
     public class PuestosController : Controller
     {
         private readonly IPuestoService _puestoService;

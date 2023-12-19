@@ -29,7 +29,7 @@ namespace Proyecto.Migrations
 
                     b.HasIndex("PuestosId");
 
-                    b.ToTable("EmpleadoPuesto");
+                    b.ToTable("EmpleadoPuesto", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -263,7 +263,7 @@ namespace Proyecto.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Empleados");
+                    b.ToTable("Empleados", (string)null);
                 });
 
             modelBuilder.Entity("Proyecto.Models.Puesto", b =>
@@ -283,7 +283,7 @@ namespace Proyecto.Migrations
 
                     b.HasIndex("SectorId");
 
-                    b.ToTable("Puestos");
+                    b.ToTable("Puestos", (string)null);
                 });
 
             modelBuilder.Entity("Proyecto.Models.Sector", b =>
@@ -302,7 +302,7 @@ namespace Proyecto.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sector");
+                    b.ToTable("Sector", (string)null);
                 });
 
             modelBuilder.Entity("EmpleadoPuesto", b =>
